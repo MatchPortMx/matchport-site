@@ -1,0 +1,43 @@
+{
+  "name": "matchport-site",
+  "version": "0.1.0",
+  "description": "Public landing + pre-registration site for Matchport (www.matchport.com.mx) — Astro on Cloudflare Workers.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.23.4 <23"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "14.4.9",
+    "@astrojs/react": "7.1.9",
+    "@marsidev/react-turnstile": "1.6.3",
+    "@neondatabase/serverless": "1.2.1",
+    "@tailwindcss/vite": "4.3.5",
+    "astro": "7.4.13",
+    "drizzle-orm": "0.45.4",
+    "hono": "4.13.23",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "resend": "6.40.1",
+    "tailwindcss": "4.3.5",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@biomejs/biome": "2.6.9",
+    "@cloudflare/workers-types": "5.20261127.1",
+    "@playwright/test": "1.65.1",
+    "drizzle-kit": "0.31.11",
+    "typescript": "6.0.3",
+    "vitest": "5.1.2",
+    "wrangler": "4.168.0"
+  }
+}

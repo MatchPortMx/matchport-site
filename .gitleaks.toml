@@ -1,0 +1,75 @@
+# Gitleaks rules for matchport-site (public repo — no secrets, ever).
+#
+# Working-tree scan (no git history):
+#   docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest detect \
+#     --source=/repo --no-git -v --config /repo/.gitleaks.toml --redact
+# The pre-publish gate additionally scans the full git history (git mode).
+#
+# Add a rule here whenever the project adopts a new secret type.
+
+title = "matchport-site secret rules"
+
+# Inherit gitleaks' built-in default rules on top of the project rules
+# below — without this, only the custom rules run and e.g. a Cloudflare
+# API token would go undetected (appsec A2).
+[extend]
+useDefault = true
+
+# Resend API key (RESEND_API_KEY) — https://resend.com
+[[rules]]
+id = "resend-api-key"
+description = "Resend API key"
+regex = '''\bre_[A-Za-z0-9]{2,}\b'''
+keywords = ["re_"]
+
+[rules.allowlist]
+regexTarget = "match"
+regexes = ['''(?i)example|placeholder|sample|dummy|xxxx|cambia''']
+
+# Neon Postgres connection string (NEON_DATABASE_URL_RW / _CRON / _APP_RO)
+[[rules]]
+id = "neon-postgres-dsn"
+description = "Neon Postgres connection string"
+regex = '''postgres(ql)?://[^\s'"`]*[a-z0-9-]+\.neon\.tech[^\s'"`]*'''
+keywords = ["neon.tech"]
+
+[rules.allowlist]
+regexTarget = "match"
+regexes = ['''(?i)example|placeholder|sample|dummy|xxxx|cambia''']
+
+# EMAIL_HASH_SALT value (HMAC salt for consent_evidence.email_sha256)
+[[rules]]
+id = "email-hash-salt"
+description = "EMAIL_HASH_SALT value"
+regex = '''EMAIL_HASH_SALT["']?\s*[:=]\s*["']?[A-Za-z0-9+/=]{16,}'''
+keywords = ["email_hash_salt"]
+
+[rules.allowlist]
+regexTarget = "match"
+regexes = ['''(?i)example|placeholder|sample|dummy|xxxx|cambia''']
+
+# Cloudflare Turnstile secret key (TURNSTILE_SECRET_KEY)
+[[rules]]
+id = "turnstile-secret-key"
+description = "Cloudflare Turnstile secret key"
+regex = '''\b0x4AAAAAAA[A-Za-z0-9_-]{25,}\b'''
+keywords = ["0x4aaaaaaa"]
+
+# Cloudflare API token (CLOUDFLARE_API_TOKEN / CF_API_TOKEN)
+[[rules]]
+id = "cloudflare-api-token"
+description = "Cloudflare API token"
+regex = '''(?i)(cloudflare|cf)[_-]?(api)?[_-]?token["'\s:=]+[A-Za-z0-9_-]{40}\b'''
+keywords = ["token"]
+
+# Vendored and build-output trees exist only in the working tree — they are
+# gitignored and never enter git history (the CI gate scans commits).
+[[allowlists]]
+description = "vendored and build output are never committed"
+paths = [
+  '''(^|/)\.git/''',
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''(^|/)\.astro/''',
+  '''(^|/)\.wrangler/''',
+]

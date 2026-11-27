@@ -1,0 +1,28 @@
+# Local development environment variables for the Matchport landing Worker.
+#
+# Copy to .dev.vars (gitignored) and replace the placeholder values.
+# NEVER put real values in the repo — it is public and gitleaks runs in CI.
+#
+# Production and preview values live in the Worker's encrypted environment
+# (dashboard or `wrangler secret put`), never in this repository.
+
+# Cloudflare Turnstile (https://developers.cloudflare.com/turnstile/)
+PUBLIC_TURNSTILE_SITE_KEY=sitekey-de-turnstile
+TURNSTILE_SECRET_KEY=secreto-de-turnstile
+TURNSTILE_EXPECTED_HOSTNAMES=localhost
+TURNSTILE_EXPECTED_ACTION=pre-register
+
+# Neon Postgres (local dev: a throwaway branch — never production)
+NEON_DATABASE_URL_RW=postgres://usuario:contrasena@rama-de-neon/db
+
+# Resend (local dev: capture mode — no live email is sent)
+RESEND_API_KEY=clave-de-resend
+RESEND_MODE=capture
+RESEND_FROM=no-reply@notificaciones.matchport.com.mx
+RESEND_REPLY_TO=contacto@matchport.mx
+
+# Site
+PUBLIC_SITE_URL=http://localhost:4321
+
+# HMAC salt for consent-evidence email hashing (landing Worker only)
+EMAIL_HASH_SALT=sal-para-hash

@@ -1,0 +1,49 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  /** Page title (es-MX copy). */
+  title: string
+  /** Page description for search engines and social previews. */
+  description: string
+  /** Social preview image path, relative to the site root. */
+  ogImage?: string
+}
+
+const { title, description, ogImage = '/og.png' } = Astro.props
+
+const site = Astro.site ?? new URL('https://www.matchport.com.mx')
+const canonical = new URL(Astro.url.pathname, site)
+const socialImage = new URL(ogImage, site)
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07112A" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Matchport" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <!-- Cloudflare Web Analytics beacon (or any future analytics script) is
+         injected here by pages — kept as a slot so no analytics code is
+         hardwired into the layout. NO manual CSP meta here: Astro's
+         security.csp config owns the Content-Security-Policy meta. -->
+    <slot name="analytics" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
