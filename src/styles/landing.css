@@ -459,12 +459,16 @@ input.valid {
 .checkbox-field label a,
 .checkbox-field label a:visited {
   color: var(--blue);
+  text-decoration: underline;
 }
 .checkbox-hint {
   margin: 2px 0 0 28px;
   font-size: 12px;
   color: #6b7280;
   line-height: 1.55;
+}
+.checkbox-error {
+  margin: 0 0 0 28px;
 }
 
 /* ── WhatsApp note ── */

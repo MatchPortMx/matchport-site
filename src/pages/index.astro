@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content'
 import logo72 from '../assets/logo-72.webp'
 import logo144 from '../assets/logo-144.webp'
 import Footer from '../components/Footer.astro'
+import PreRegisterForm from '../components/PreRegisterForm'
 import Base from '../layouts/Base.astro'
 import '../styles/landing.css'
 
@@ -86,10 +87,10 @@ const [before, after] = hero.headline.split(hero.highlight)
         <p>{form.subtitle}</p>
       </div>
 
-      <!-- The pre-registration form island (PR-2, next commit) mounts here:
-           field set per D8/§5, consent checkboxes, Turnstile, honeypot. -->
+      <!-- pre-registration form island (client:visible — the only JS on the page) -->
+      <PreRegisterForm client:visible copy={copy} />
 
-      <!-- simplified aviso (LP-1 §3) — next to the submit button -->
+      {/* simplified aviso (LP-1 §3) — next to the submit button */}
       <aside class="simplified-aviso" aria-label={aviso.title}>
         <span class="sa-title">{aviso.title}</span>
         <p>
