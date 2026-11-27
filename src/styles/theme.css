@@ -1,0 +1,18 @@
+/*
+ * Design tokens ported from the live Matchport landing page.
+ * The full page styles are ported in a later PR; this file carries the
+ * :root color/typography variables the brand is built on.
+ */
+:root {
+  --blue: #2055d4;
+  --blue-light: #3a6ef0;
+  --blue-dim: rgba(32, 85, 212, 0.18);
+  --navy: #07112a;
+  --navy-mid: #0d1e40;
+  --navy-card: #112252;
+  --white: #fafbff;
+  --gray: #8b96b0;
+  --gray-light: #e8ecf6;
+  --success: #22c55e;
+  --font: "Inter", sans-serif;
+}
