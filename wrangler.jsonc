@@ -1,0 +1,61 @@
+{
+  // Root Worker config — the site deploys to Cloudflare Workers with static
+  // assets. NOTE: no `main` here on purpose. @astrojs/cloudflare v14 builds
+  // through @cloudflare/vite-plugin, which supplies the entrypoint itself and
+  // eagerly validates a file-path `main` (dist/_worker.js/index.js does not
+  // exist until after a build → clean builds would fail). The build writes
+  // .wrangler/deploy/config.json + a generated deploy config in dist/, which
+  // is what `wrangler deploy` consumes.
+  "name": "matchport-site",
+  "compatibility_date": "2026-11-01",
+  // global_fetch_strictly_public: optional hardening — all outbound fetches
+  // (Turnstile/Neon/Resend) are external.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  // Workers Logs only — NOT Analytics Engine; AE gets its own binding below.
+  "observability": {
+    "enabled": true
+  },
+  // Enable Preview/Version URLs (protect them with preview-only Cloudflare
+  // Access; production stays public).
+  "preview_urls": true,
+  // writeDataPoint target — the dataset is auto-created on first write.
+  "analytics_engine_datasets": [
+    { "binding": "AE", "dataset": "landing_events" }
+  ],
+  // Declared here, native in the Worker env (env.IP_LIMITER / env.EMAIL_LIMITER).
+  "ratelimits": [
+    {
+      "name": "IP_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 8,
+        "period": 60
+      }
+    },
+    {
+      "name": "EMAIL_LIMITER",
+      "namespace_id": "1002",
+      "simple": {
+        "limit": 4,
+        "period": 60
+      }
+    }
+  ],
+  // PR previews read THIS block (branch-isolated; wrangler preview / Workers
+  // Builds non-production branch). Production config stays top-level above;
+  // assets + compatibility_* are top-level only. Production vars/secrets are
+  // set in the dashboard / wrangler — never in this repo. The preview-branch
+  // Neon DSN + Turnstile TEST keys are Preview-scope secrets, not in the repo.
+  "previews": {
+    "vars": {
+      "RESEND_MODE": "capture"
+    },
+    "analytics_engine_datasets": [
+      { "binding": "AE", "dataset": "landing_events_preview" }
+    ]
+  }
+}
