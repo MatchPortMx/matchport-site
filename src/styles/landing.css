@@ -1,0 +1,654 @@
+/*
+ * Landing page styles ported from the live-page snapshot (styles.css), with
+ * the a11y additions required by plan §6.1:
+ *   - :focus-visible rings on every interactive element (incl. radio cards)
+ *   - field error styles tied via aria-describedby / aria-live
+ *   - checkbox styles (the snapshot had none — consent checkboxes are new)
+ *   - off-screen honeypot (aria-hidden + tabindex -1 in the markup)
+ *   - prefers-reduced-motion disables transitions/animations
+ *   - small text on white uses #6b7280 (≥4.5:1) instead of #9ca3af
+ * The React island reuses these class names; the file is therefore global
+ * (not scoped) and must not rely on Astro scope attributes.
+ */
+
+/* ── layout ── */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* ── left panel ── */
+.left {
+  background: var(--navy);
+  padding: 52px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.logo-name {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white);
+}
+
+.hero-text {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.eyebrow {
+  font-size: 13px;
+  color: var(--gray);
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+
+h1 {
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--white);
+  text-wrap: pretty;
+}
+h1 .hl {
+  color: var(--blue-light);
+}
+
+.sub {
+  font-size: 15px;
+  color: var(--gray);
+  line-height: 1.65;
+  max-width: 380px;
+  text-wrap: pretty;
+}
+
+/* pre-launch note — replaces the live page's fabricated counter (LP-1 §7.2) */
+.prelaunch-card {
+  background: var(--navy-card);
+  border: 1px solid rgba(32, 85, 212, 0.25);
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+.prelaunch-card p {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.5;
+}
+.prelaunch-card p span {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+/* benefits */
+.benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.benefit-icon {
+  width: 34px;
+  height: 34px;
+  background: var(--blue-dim);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.benefit-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.benefit-text {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+.benefit-text strong {
+  color: var(--white);
+  display: block;
+  font-size: 14px;
+}
+
+/* ── right panel ── */
+.right {
+  background: var(--white);
+  padding: 52px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  color: #111827;
+}
+
+.form-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0d1e40;
+  margin-bottom: 6px;
+}
+.form-header p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* ── form (island) ── */
+.form-island {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field > label,
+fieldset.field > legend {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.02em;
+  padding: 0;
+}
+.field label .req {
+  color: var(--blue);
+  margin-left: 2px;
+}
+.field label .opt {
+  color: #6b7280;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+fieldset.field {
+  border: none;
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.input-wrap {
+  position: relative;
+}
+.input-wrap .icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+.input-wrap .icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 14px;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+input::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(32, 85, 212, 0.1);
+}
+input.error {
+  border-color: #ef4444;
+}
+input.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+input.valid {
+  border-color: var(--success);
+}
+
+.phone-group {
+  display: flex;
+  align-items: stretch;
+}
+.phone-prefix {
+  padding: 12px 10px 12px 42px;
+  border: 1.5px solid #e5e7eb;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  font-size: 14px;
+  color: #6b7280;
+  background: #f9fafb;
+  white-space: nowrap;
+}
+.phone-group input[type="tel"] {
+  border-radius: 0 10px 10px 0;
+  padding-left: 14px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* field errors — linked via aria-describedby, polite live region */
+.field-error {
+  color: #b91c1c;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── radio card groups ── */
+.tipo-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.tipo-option {
+  position: relative;
+}
+.tipo-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.tipo-option label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s;
+  background: #fff;
+  text-align: center;
+  line-height: 1.3;
+}
+.tipo-option label svg {
+  width: 20px;
+  height: 20px;
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+.tipo-option input[type="radio"]:checked + label {
+  border-color: var(--blue);
+  background: rgba(32, 85, 212, 0.06);
+  color: var(--blue);
+  font-weight: 600;
+}
+.tipo-option input[type="radio"]:checked + label svg {
+  color: var(--blue);
+}
+.tipo-option input[type="radio"]:focus-visible + label {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(32, 85, 212, 0.1);
+}
+
+.gps-group {
+  display: flex;
+  gap: 12px;
+}
+.gps-option {
+  flex: 1;
+  position: relative;
+}
+.gps-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.gps-option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s;
+  background: #fff;
+}
+.gps-option input[type="radio"]:checked + label {
+  border-color: var(--blue);
+  background: rgba(32, 85, 212, 0.06);
+  color: var(--blue);
+  font-weight: 600;
+}
+.gps-option input[type="radio"]:focus-visible + label {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(32, 85, 212, 0.1);
+}
+.gps-option label svg {
+  width: 16px;
+  height: 16px;
+}
+
+.volumen-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.volumen-option {
+  position: relative;
+}
+.volumen-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.volumen-option label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 12px 8px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  transition: all 0.2s;
+  background: #fff;
+  text-align: center;
+  line-height: 1.2;
+}
+.volumen-option input[type="radio"]:checked + label {
+  border-color: var(--blue);
+  background: rgba(32, 85, 212, 0.06);
+  color: var(--blue);
+}
+.volumen-option input[type="radio"]:focus-visible + label {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(32, 85, 212, 0.1);
+}
+
+/* ── consent checkboxes (new — LP-1 §5.1, all pre-unchecked) ── */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e8ecf6;
+  border-radius: 12px;
+}
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.checkbox-field input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--blue);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.checkbox-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.55;
+  cursor: pointer;
+}
+.checkbox-field label a,
+.checkbox-field label a:visited {
+  color: var(--blue);
+  text-decoration: underline;
+}
+.checkbox-hint {
+  margin: 2px 0 0 28px;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.55;
+}
+.checkbox-error {
+  margin: 0 0 0 28px;
+}
+
+/* ── WhatsApp note ── */
+.wa-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+  line-height: 1.55;
+}
+.wa-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ── turnstile ── */
+.turnstile-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.turnstile-wrap .turnstile-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.02em;
+}
+.turnstile-pending {
+  font-size: 12.5px;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+/* ── submit ── */
+.btn-submit {
+  padding: 16px;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s,
+    box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-submit:hover {
+  background: var(--blue-light);
+  box-shadow: 0 8px 24px rgba(32, 85, 212, 0.35);
+  transform: translateY(-1px);
+}
+.btn-submit:active {
+  transform: translateY(0);
+}
+.btn-submit:focus-visible {
+  box-shadow: 0 0 0 3px rgba(32, 85, 212, 0.4);
+}
+
+/* neutral "not wired yet" state (PR-2: validation only, no fetch) */
+.form-status {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+.form-status-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0d1e40;
+  margin: 0 0 4px;
+}
+.form-status-body {
+  font-size: 13px;
+  color: #0369a1;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* honeypot — off-screen, aria-hidden, tabindex -1 */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── simplified aviso (LP-1 §3, next to the submit button) ── */
+.simplified-aviso {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 16px;
+}
+.simplified-aviso .sa-title {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 4px;
+}
+.simplified-aviso p {
+  font-size: 11.5px;
+  color: #4b5563;
+  line-height: 1.65;
+  margin: 0;
+}
+.simplified-aviso a,
+.simplified-aviso a:visited {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+/* keyboard focus for every remaining interactive element */
+.page a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── responsive ── */
+@media (max-width: 860px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .left {
+    position: static;
+    height: auto;
+    padding: 36px 28px;
+    gap: 28px;
+  }
+  .right {
+    padding: 36px 28px;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+  .tipo-group {
+    grid-template-columns: 1fr 1fr;
+  }
+  .volumen-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .tipo-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── reduced motion (plan §6.1) ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

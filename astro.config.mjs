@@ -32,7 +32,10 @@ export default defineConfig({
         "default-src 'self'",
         "base-uri 'self'",
         "form-action 'self'",
-        "img-src 'self' data:",
+        // PR-2 audit: nothing on the page (nor the Turnstile island — its
+        // widget renders inside the challenges.cloudflare.com iframe, which
+        // has its own policy) uses data: images → data: removed.
+        "img-src 'self'",
         "font-src 'self'",
         "object-src 'none'",
         'frame-src https://challenges.cloudflare.com',

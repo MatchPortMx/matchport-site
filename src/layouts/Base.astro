@@ -1,5 +1,7 @@
 ---
+import interLatin from '../assets/fonts/ac89cdc9.woff2'
 import '../styles/global.css'
+import '../styles/fonts.css'
 
 interface Props {
   /** Page title (es-MX copy). */
@@ -8,9 +10,11 @@ interface Props {
   description: string
   /** Social preview image path, relative to the site root. */
   ogImage?: string
+  /** Emit <meta name="robots" content="noindex"> — legal pages while draft. */
+  noindex?: boolean
 }
 
-const { title, description, ogImage = '/og.png' } = Astro.props
+const { title, description, ogImage = '/og.png', noindex = false } = Astro.props
 
 const site = Astro.site ?? new URL('https://www.matchport.com.mx')
 const canonical = new URL(Astro.url.pathname, site)
@@ -25,7 +29,19 @@ const socialImage = new URL(ogImage, site)
     <meta name="theme-color" content="#07112A" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Preload ONLY the latin subset (the only one es-MX copy needs at
+         first paint); latin-ext/cyrillic/greek/vietnamese stay on unicode-range. -->
+    <link
+      rel="preload"
+      href={interLatin}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Matchport" />
     <meta property="og:locale" content="es_MX" />

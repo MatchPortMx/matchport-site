@@ -1,0 +1,63 @@
+---
+import type { LandingCopy } from '../lib/copy-schema'
+
+interface Props {
+  /** Footer block of landing.es.json (bracketed placeholders until counsel). */
+  copy: LandingCopy['footer']
+}
+
+const { copy } = Astro.props
+---
+
+<footer class="site-footer">
+  <p class="site-footer-legal">
+    {copy.razon_social} · {copy.domicilio} · {copy.correo_privacidad} · {copy.correo_contacto} ·
+    WhatsApp {copy.whatsapp}
+  </p>
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a href="/aviso-de-privacidad">{copy.links.aviso}</a>
+    <a href="/terminos">{copy.links.terminos}</a>
+  </nav>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(32, 85, 212, 0.25);
+    color: var(--gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .site-footer-legal {
+    font-size: 12px;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  .site-footer-nav {
+    display: flex;
+    gap: 20px;
+  }
+
+  .site-footer-nav a {
+    color: #9fb4e8;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .site-footer-nav a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer-nav a:focus-visible {
+    outline: 2px solid #9fb4e8;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+</style>
