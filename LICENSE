@@ -4,3 +4,5 @@ This software, its source code, and its documentation are proprietary and
 confidential. No license or other right to use, copy, modify, distribute, or
 sublicense any part of this repository is granted, and any such use without
 the prior written authorization of Matchport is prohibited.
+
+Third-party components included in this repository (such as the Inter typeface in src/assets/fonts/) are licensed under their own terms; see THIRD-PARTY-NOTICES.md.
