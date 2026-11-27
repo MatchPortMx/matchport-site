@@ -1,0 +1,166 @@
+{
+  "landing.es": {
+    "meta": {
+      "title": "Matchport — Preinscripción para el lanzamiento | Puerto de Manzanillo",
+      "description": "Registra tu empresa y reserva tu lugar para el acceso anticipado a Matchport, la plataforma de forwarding del Puerto de Manzanillo."
+    },
+    "hero": {
+      "eyebrow": "Lanzamiento 2026 · Puerto de Manzanillo",
+      "headline": "La plataforma de forwarding del Puerto de Manzanillo",
+      "highlight": "forwarding",
+      "subheadline": "Conecta tu carga con transportistas en Manzanillo. Regístrate hoy y reserva tu lugar para el acceso anticipado.",
+      "prelaunch": "Sé de las primeras empresas en Manzanillo en probar Matchport."
+    },
+    "benefits": [
+      {
+        "title": "Acceso anticipado",
+        "description": "Entre las primeras empresas en usar Matchport durante el lanzamiento."
+      },
+      {
+        "title": "Beneficios de lanzamiento",
+        "description": "Para las primeras empresas (por anunciar)."
+      },
+      {
+        "title": "Comunidad fundadora",
+        "description": "Forma parte del grupo inicial de transportistas y agencias del puerto."
+      }
+    ],
+    "form": {
+      "title": "Registra tu empresa",
+      "subtitle": "Completa el formulario y reserva tu acceso anticipado. Te contactaremos antes del lanzamiento.",
+      "submit": "Confirmar mi pre-registro",
+      "optional": "(opcional)",
+      "roles": {
+        "legend": "Tipo de participante",
+        "options": [
+          {
+            "value": "transportista_empresa",
+            "label": "Transportista empresa"
+          },
+          {
+            "value": "transportista_independiente",
+            "label": "Transportista independiente"
+          },
+          {
+            "value": "forwarder",
+            "label": "Forwarder"
+          },
+          {
+            "value": "agencia_aduanal",
+            "label": "Agencia aduanal"
+          }
+        ]
+      },
+      "company": {
+        "label": "Empresa o razón social",
+        "label_independiente": "Nombre comercial o nombre",
+        "placeholder": "Transportes Ejemplo, S.A. de C.V."
+      },
+      "full_name": {
+        "label": "Nombre de contacto",
+        "placeholder": "Juan Pérez"
+      },
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "contacto@empresa.com"
+      },
+      "phone": {
+        "label": "Teléfono",
+        "placeholder": "314 000 0000",
+        "hint": "Usaremos este número para contactarte por WhatsApp sobre tu pre-registro. No lo compartimos con terceros con fines publicitarios."
+      },
+      "tractocamiones": {
+        "label": "Número de tractocamiones",
+        "placeholder": "Ej. 12"
+      },
+      "gps": {
+        "legend": "¿Cuentan con GPS o rastreo?",
+        "options": [
+          {
+            "value": true,
+            "label": "Sí"
+          },
+          {
+            "value": false,
+            "label": "No"
+          }
+        ]
+      },
+      "volumen": {
+        "legend": "Volumen estimado de viajes al mes",
+        "options": [
+          {
+            "value": "1-20",
+            "label": "1 – 20"
+          },
+          {
+            "value": "21-80",
+            "label": "21 – 80"
+          },
+          {
+            "value": "81-200",
+            "label": "81 – 200"
+          },
+          {
+            "value": "200+",
+            "label": "200+"
+          }
+        ]
+      },
+      "checkboxes": {
+        "aviso": {
+          "prefix": "He leído y acepto el",
+          "link": "Aviso de Privacidad"
+        },
+        "terms": {
+          "prefix": "Acepto los",
+          "link": "Términos y Condiciones"
+        },
+        "marketing": {
+          "label": "Quiero recibir comunicaciones comerciales y novedades de Matchport.",
+          "hint": "Puedes darte de baja en cualquier momento. Si no la marca, igual completamos tu pre-registro."
+        }
+      },
+      "turnstile": {
+        "label": "Verificación de seguridad",
+        "pending": "Verificación anti-bots: configuración pendiente."
+      }
+    },
+    "simplified_aviso": {
+      "title": "Aviso de Privacidad (resumen).",
+      "body": "[RAZÓN SOCIAL], con domicilio en [DOMICILIO], es responsable del tratamiento de tus datos personales. Usamos los datos que nos proporcionas (tipo de participante, empresa/nombre, contacto, correo, teléfono y datos operativos de tu empresa) para registrar tu pre-inscripción, confirmar tu correo, validar tu empresa e invitarte a crear tu cuenta. Si marcas la casilla correspondiente, también para enviarte comunicaciones comerciales (finalidad opcional de la que puedes negarte sin afectar tu registro). Puedes limitar el uso de tus datos o ejercer tus derechos escribiendo a [CORREO DE PRIVACIDAD].",
+      "link_text": "Aviso de Privacidad Integral",
+      "link_note": "para conocer todas las finalidades, los encargados, las transferencias y tus derechos ARCO."
+    },
+    "messages": {
+      "required": "Completa este campo para continuar.",
+      "email_invalid": "Escribe un correo con formato válido (ej. nombre@empresa.com).",
+      "phone_invalid": "Escribe un teléfono a 10 dígitos.",
+      "number_invalid": "Escribe un número entero entre 0 y 100,000.",
+      "consent_required": "Para continuar, acepta el Aviso de Privacidad y los Términos y Condiciones.",
+      "success": "Si el correo es válido, te enviamos un enlace de confirmación. Revisa tu bandeja de entrada (y la carpeta de spam). El enlace vence en 48 horas.",
+      "captcha_failed": "No pudimos verificar que no eres un bot. Recarga la página e inténtalo de nuevo.",
+      "rate_limited": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      "server_error": "Algo salió mal de nuestro lado. Inténtalo de nuevo en unos minutos o escríbenos a [CORREO DE CONTACTO].",
+      "link_invalid": "Este enlace ya fue usado o venció. Si crees que es un error, escríbenos a [CORREO DE CONTACTO].",
+      "submit_unavailable_title": "Envío disponible próximamente",
+      "submit_unavailable_body": "Tu información pasó la validación, pero el envío del formulario aún no está activo. No se ha enviado ningún dato."
+    },
+    "legal_ui": {
+      "draft_banner": "Borrador — pendiente de validación legal",
+      "version_label": "Versión",
+      "back_home": "Volver al inicio"
+    },
+    "footer": {
+      "razon_social": "[RAZÓN SOCIAL]",
+      "domicilio": "[DOMICILIO]",
+      "correo_privacidad": "[CORREO DE PRIVACIDAD]",
+      "correo_contacto": "[CORREO DE CONTACTO]",
+      "whatsapp": "[NÚMERO WHATSAPP]",
+      "links": {
+        "aviso": "Aviso de Privacidad",
+        "terminos": "Términos y Condiciones"
+      }
+    }
+  }
+}

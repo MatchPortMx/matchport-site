@@ -1,0 +1,32 @@
+---
+import { getEntry, render } from 'astro:content'
+import Footer from '../components/Footer.astro'
+import Base from '../layouts/Base.astro'
+import '../styles/legal.css'
+
+const doc = await getEntry('legal', 'aviso-de-privacidad')
+if (!doc) throw new Error('Content entry legal/aviso-de-privacidad is missing')
+
+const landing = await getEntry('copy', 'landing.es')
+if (!landing) throw new Error('Content entry copy/landing.es is missing')
+
+const { Content } = await render(doc)
+const { title, version, status } = doc.data
+const ui = landing.data.legal_ui
+---
+
+<Base
+  title={`${title} — Matchport`}
+  description={`${title} de Matchport, versión ${version} (borrador, pendiente de validación legal).`}
+  noindex={status === 'draft'}
+>
+  <main class="legal-page">
+    <a class="legal-back" href="/">{`← ${ui.back_home}`}</a>
+    {status === 'draft' && <p class="legal-banner" role="note">{ui.draft_banner}</p>}
+    <p class="legal-version">{`${ui.version_label} ${version}`}</p>
+    <div class="legal-prose">
+      <Content />
+    </div>
+  </main>
+  <Footer copy={landing.data.footer} />
+</Base>
