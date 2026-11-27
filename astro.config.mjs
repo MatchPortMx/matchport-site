@@ -6,6 +6,8 @@ import { defineConfig } from 'astro/config'
 export default defineConfig({
   site: 'https://www.matchport.com.mx',
   output: 'static',
+  // The landing never issues sessions; prevents the adapter's auto SESSION KV binding.
+  session: false,
   adapter: cloudflare({ imageService: 'passthrough' }),
   integrations: [react()],
   vite: {
@@ -16,6 +18,8 @@ export default defineConfig({
     locales: ['es'],
     routing: { prefixDefaultLocale: false },
   },
+  // Legal pages are prose — Shiki would emit CSP-incompatible inline styles.
+  markdown: { syntaxHighlight: false },
   security: {
     // Astro hashes its inline hydration scripts so the React island hydrates
     // under an enforced CSP (no nonce — a static host has no per-request

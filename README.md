@@ -47,3 +47,9 @@ hard CI gate.
 **`wrangler deploy` is production-only** — it uploads _and promotes_ the
 Worker to production traffic. Never deploy to production from a PR. Preview
 environments come from branch-isolated Workers Previews / Workers Builds.
+
+Deploys always use the **build-generated redirected config**: run
+`astro build` first, then plain `wrangler deploy` (it follows
+`.wrangler/deploy/config.json` to the generated `dist/client/wrangler.json`).
+Never `wrangler deploy --config wrangler.jsonc` — the root `wrangler.jsonc`
+is a fail-safe fallback, not the deploy source.

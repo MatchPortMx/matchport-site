@@ -4,6 +4,9 @@
   "description": "Public landing + pre-registration site for Matchport (www.matchport.com.mx) — Astro on Cloudflare Workers.",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=22.23.4 <23"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

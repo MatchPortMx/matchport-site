@@ -13,7 +13,9 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "binding": "ASSETS",
-    "directory": "./dist"
+    // Fail-safe only: real deploys consume the build-generated redirect
+    // (dist/client/wrangler.json), never this file directly — see README.
+    "directory": "./dist/client"
   },
   // Workers Logs only — NOT Analytics Engine; AE gets its own binding below.
   "observability": {
@@ -56,6 +58,28 @@
     },
     "analytics_engine_datasets": [
       { "binding": "AE", "dataset": "landing_events_preview" }
+    ],
+    // Same two limiters as production (same names and limits) but with
+    // distinct namespace ids 2001/2002 so preview traffic never shares
+    // counters with production. The 429 must be proven on the first real
+    // preview build (LP-5).
+    "ratelimits": [
+      {
+        "name": "IP_LIMITER",
+        "namespace_id": "2001",
+        "simple": {
+          "limit": 8,
+          "period": 60
+        }
+      },
+      {
+        "name": "EMAIL_LIMITER",
+        "namespace_id": "2002",
+        "simple": {
+          "limit": 4,
+          "period": 60
+        }
+      }
     ]
   }
 }
