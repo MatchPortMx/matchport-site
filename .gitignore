@@ -1,0 +1,11 @@
+# private operator context (approved plan, legal drafts, design snapshot) — never published
+.private/
+node_modules/
+dist/
+.astro/
+.wrangler/
+.dev.vars
+*.local
+.env
+.env.*
+!.dev.vars.example
