@@ -21,8 +21,10 @@
   "observability": {
     "enabled": true
   },
-  // Enable Preview/Version URLs (protect them with preview-only Cloudflare
-  // Access; production stays public).
+  // Enable Preview/Version URLs. WARNING (appsec A3): preview URLs are
+  // PUBLIC until preview-scoped Cloudflare Access is configured (LP-5) —
+  // no preview may carry the form, a database, Turnstile/Resend secrets or
+  // e2e before that. Access stays preview-scoped so production stays public.
   "preview_urls": true,
   // writeDataPoint target — the dataset is auto-created on first write.
   "analytics_engine_datasets": [

@@ -9,6 +9,12 @@
 
 title = "matchport-site secret rules"
 
+# Inherit gitleaks' built-in default rules on top of the project rules
+# below — without this, only the custom rules run and e.g. a Cloudflare
+# API token would go undetected (appsec A2).
+[extend]
+useDefault = true
+
 # Resend API key (RESEND_API_KEY) — https://resend.com
 [[rules]]
 id = "resend-api-key"
@@ -41,6 +47,20 @@ keywords = ["email_hash_salt"]
 [rules.allowlist]
 regexTarget = "match"
 regexes = ['''(?i)example|placeholder|sample|dummy|xxxx|cambia''']
+
+# Cloudflare Turnstile secret key (TURNSTILE_SECRET_KEY)
+[[rules]]
+id = "turnstile-secret-key"
+description = "Cloudflare Turnstile secret key"
+regex = '''\b0x4AAAAAAA[A-Za-z0-9_-]{25,}\b'''
+keywords = ["0x4aaaaaaa"]
+
+# Cloudflare API token (CLOUDFLARE_API_TOKEN / CF_API_TOKEN)
+[[rules]]
+id = "cloudflare-api-token"
+description = "Cloudflare API token"
+regex = '''(?i)(cloudflare|cf)[_-]?(api)?[_-]?token["'\s:=]+[A-Za-z0-9_-]{40}\b'''
+keywords = ["token"]
 
 # Vendored and build-output trees exist only in the working tree — they are
 # gitignored and never enter git history (the CI gate scans commits).
